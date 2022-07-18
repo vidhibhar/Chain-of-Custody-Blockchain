@@ -16,11 +16,17 @@ For this project, the chosen programming language for use is Python. Python is a
 
 The struct library functionalities were chosen for this project because it contains methods that allow for the packing and encoding of given data strings. A struct object is used to read and write binary data according to the given buffer string, given specific values to help encode things like the header and data for a given block. Given the first time a block is being created, the data is directly added to the data structure. A hash is also created using SHA-1 for each respective block. After a data block is added, checking is done to remove any duplicates. The blockchain is stored as text in a file with utf-8 encoding, which is read back when data is retrieved. The progr_am parses the data by iterating through each entry in the blockchain until it reaches the end, reading the header and data into an array. Data is unpacked from the block with specified byte lengths for each field. 
 
-![alttext]()
+![alttext](https://github.com/vidhibhar/Chain-of-Custody-Blockchain/blob/4410b2c123ada7081e5d9b88393faa5ce3c57be9/pics/1.PNG)
+
+*Code snippet showing the function to initialize a block*
 
 In order to maintain the integrity of the blockchain, the history of data added or removed should be recorded. State variables are used to define whether data is still checked in or destroyed. Data added is given the initial value of CHECKEDIN to their state, and the current timestamp is included with the header information. Issues with the user input such as missing parameters or incorrect syntax will incur different error codes as output, with exit 0, meaning the program is appropriately executed. 
 
 User input is handled with argparse, a library designed for parsing input from the command line. The various behaviors and valuable information that should be displayed to a user for a given action are defined at the beginning and fed into an if/else statement to determine what should be done.
+
+![alttext](https://github.com/vidhibhar/Chain-of-Custody-Blockchain/blob/4410b2c123ada7081e5d9b88393faa5ce3c57be9/pics/2.PNG)
+
+*Code snippet showing a section of the argument parser for user input*
 
 We parsed the blockchain by reading the correct number of bytes corresponding to the size of each block from the blockchain file, unpacked those bytes, and used namedtuple's ._make() method to parse the data into its corresponding sections (i.e. item_id, case_id, sha1_hash, etc) and wrap them into a namedtuple. We used this method as it is extremely simple syntactically and was the method suggested by the Python docs for the struct library (found here: https://docs.python.org/3/library/struct.html). 
 
@@ -30,11 +36,15 @@ You can say one challenge was figuring out how to parse the unpacked data into e
 ####  Challenges:
 My choice of the programming language used for the project was Python, and with this choice came many struggles, such as the library implementation, especially when dealing with the structures. The process and exact syntax for reading blocks in bytes were also a concern as the data unpacking. I chose the language of Python because it was a language we were comfortable with and had some previous knowledge, and had lots of familiarity with the syntax. The blockchain was parsed by reading the correct number of bytes corresponding to the size of each block from the blockchain file, and then we unpacked those bytes. The method ._make() from the "namedtuples" was used to parse the data and transport it into the appropriate sections(i.e., item_id, case_id, sha1_hash, etc.). The main challenge that can be said with unpacking this data was how to create maximum efficiency when distributing into each section, and the ._make() method incorporates the syntax from the website "https://docs.python.org/3/library/struct.html" we learned the lesson that you must use a formatted buffer unpack tactic. This struct returns the byte values of string format, and the result must be the tuple if it only contains one item, which is crucial for us because of the check-in to see if the block with the previous hash was valid.
 
-![alttext]()
+![alttext](https://github.com/vidhibhar/Chain-of-Custody-Blockchain/blob/4410b2c123ada7081e5d9b88393faa5ce3c57be9/pics/3.PNG)
+
+*Code snippet showing check functionality for blocks to checkin and checkout*
+
 
 The bhoc verification and how it will impact the blockchain's function and transactions were the aspects of the process involving the specific syntax we had to choose for the file. The tuple header for this functionality of verify was done using a lot of if statements, and if met, it would update the state information to the current value. The challenge we faced while writing this file was ensuring that the parameters of item_id and path were accurate to the block structure. This function corresponds with the check.py, where both the checkin and checkout are given. The common is imported; the challenge we faced while writing this file was ensuring that item id and path parameters were accurate to the block structure. The lesson learned in the log.py file was that the try and except feature was the best way to get the case id updated to the current, with the current and previous timestamps updated. The data is retrieved in the init.py, and it shows the results if there is an initial block, and if not, it sends the signal to go and create one with the proper specifications. 
 
-![alttext]()
+![alttext](https://github.com/vidhibhar/Chain-of-Custody-Blockchain/blob/4410b2c123ada7081e5d9b88393faa5ce3c57be9/pics/4.PNG)
+
 *Code snippet within file log.py showing the Tuple Header and case id time updates*
 
 The final challenge that was already predicted to be an obstacle to the given requirements was the environment variable of the Bchoc file path and how the program would fail all grading tests, so it must be handled. Our process accounted for this because all the edge cases were considered. The paths that would result if any of them were activated are demonstrated in elseif statements for each specification (i.e., add, remove, checkin, etc.). This method also accounts for the item_id and why, if it was not present, the message "missing item_it" would result when displaying the syntax error. The main takeaway from keeping all of these checks in check was that it provides the blockchain with all of the information it requires to display when an error occurs and everything it requires for the path to run smoothly.
